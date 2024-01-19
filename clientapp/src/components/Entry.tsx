@@ -1,20 +1,21 @@
-export const Entry = ({createdAt, url, content}) => {
+export const Entry = ({createdAt, url, content, avatar, displayName}) => {
     const markup = { __html: content };
     return (
-        <a
-          href={url}
-          className="block rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="external nofollow"
-        >
-          <h2 className={`mb-3 text-xl font-semibold`}
-dangerouslySetInnerHTML={markup}
-        >
-
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            {createdAt}
-          </p>
-        </a>
+      <div className="max-w-sm w-full lg:max-w-full lg:flex">
+        <div className="border-r border-b border-l border-gray-400 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
+        <div className="mb-8">
+          <a href={url} target="_blank" rel="external nofollow">
+            <div className="text-gray-900 text-xl mb-2 text-left" dangerouslySetInnerHTML={markup}></div>
+          </a>
+        </div>
+        <div className="flex items-center">
+          <img className="w-10 h-10 rounded-full mr-4" src={avatar} alt={displayName} />
+          <div className="text-sm">
+            <p className="text-gray-900 leading-none text-left">{displayName}</p>
+            <p className="text-gray-600">{createdAt}</p>
+          </div>
+        </div>
+      </div>
+    </div>
     );
 };

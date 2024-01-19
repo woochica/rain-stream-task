@@ -10,14 +10,17 @@ export const EntryList = props => {
         // TODO add schema validation
         const newEntry = await res.json();
         setEntries([newEntry, ...entries]);
-        console.debug('new entry', newEntry.id);
+        console.debug('new entry', newEntry);
     }, [setEntries, entries]);
     useStream('http://localhost:8000/public', {onNext, fetchParams});
 
     const entriesContent = entries.map(entry => (
-            <Entry key={entry.id} createdAt={entry.created_at}
-            content={entry.content}
-            url={entry.url}
+            <Entry key={entry.id}
+                avatar={entry.account.avatar}
+                displayName={entry.account.display_name}
+                createdAt={entry.created_at}
+                content={entry.content}
+                url={entry.url}
                 />
         ));
 
