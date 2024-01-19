@@ -1,10 +1,10 @@
 import React, {useCallback, useState} from 'react';
 import {useStream} from 'react-fetch-streams';
-import Entry from './Entry';
+import {Entry} from './Entry';
 
 const fetchParams = {mode: 'cors'}
 
-const EntryList = props => {
+export const EntryList = props => {
     const [entries, setEntries] = useState([]);
     const onNext = useCallback(async res => {
         // TODO add schema validation
@@ -28,5 +28,3 @@ const EntryList = props => {
       </div>
     );
 };
-
-export default EntryList;

@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image";
-import EntryList from '../components/EntryList';
+import {EntryList} from '../components/EntryList';
 
 
 export default function Home() {
