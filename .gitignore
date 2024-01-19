@@ -1,3 +1,5 @@
 __pycache__
 .env
 venv
+mastodon_clientcred.secret
+mastodon_usercred.secret

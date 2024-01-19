@@ -27,6 +27,8 @@ app.add_middleware(
 )
 
 max_entries = int(os.environ.get('MASTODON_MAX_ENTRIES', 50))
+client_secret = os.environ.get('MASTODON_CLIENT_SECRET', 'mastodon_clientcred.secret')
+user_secret = os.environ.get('MASTODON_USER_SECRET', 'mastodon_usercred.secret')
 
 # mastodon stream pool
 entries = []
@@ -78,10 +80,10 @@ class Listener(StreamListener):
         logging.debug("ping")
 
 
-mastodon = Mastodon(client_id=os.environ['MASTODON_CLIENT_SECRET'])
+mastodon = Mastodon(client_id=client_secret)
 mastodon.log_in(
     os.environ['MASTODON_USER'],
     os.environ['MASTODON_PASSWORD'],
-    to_file=os.environ['MASTODON_USER_SECRET'],
+    to_file=user_secret,
 )
 mastodon.stream_public(Listener(), run_async=True)
