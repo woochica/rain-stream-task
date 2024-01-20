@@ -10,7 +10,6 @@ import json
 import datetime
 import logging
 
-logging.basicConfig(level=logging.DEBUG)
 load_dotenv()
 app = FastAPI()
 
@@ -37,10 +36,10 @@ def date_to_isoformat(o):
   if isinstance(o, datetime.datetime):
       return o.isoformat()
 
-async def generate_entries():
+async def generate_entries(forever=True):
     global entries
     pos = 0
-    while True:
+    while forever or pos < len(entries):
         if (pos < len(entries)):
             entry = entries[pos]
             logging.debug("streaming entry %s", entry['id'])
@@ -80,10 +79,12 @@ class Listener(StreamListener):
         logging.debug("ping")
 
 
-mastodon = Mastodon(client_id=client_secret)
-mastodon.log_in(
-    os.environ['MASTODON_USER'],
-    os.environ['MASTODON_PASSWORD'],
-    to_file=user_secret,
-)
-mastodon.stream_public(Listener(), run_async=True)
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.DEBUG)
+    mastodon = Mastodon(client_id=client_secret)
+    mastodon.log_in(
+        os.environ["MASTODON_USER"],
+        os.environ["MASTODON_PASSWORD"],
+        to_file=user_secret,
+    )
+    mastodon.stream_public(Listener(), run_async=True)

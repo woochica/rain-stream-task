@@ -27,6 +27,15 @@ Run `docker compose up` to start the backend and the client app.
 
 Launch http://localhost:3000/ in the browser.
 
+## Run backend unit tests
+
+``` shell
+python -m venv venv
+venv/bin/pip install -r requirements.txt
+venv/bin/pip install -r requirements_dev.txt
+venv/bin/python -m unittest tests.py
+```
+
 ## Known issues, limitations
 
 - Mastodon posts are stored in-memory whose number is limited by a constant
