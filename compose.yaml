@@ -3,9 +3,12 @@
 # https://docs.docker.com/go/compose-spec-reference/
 
 services:
-  server:
+  backend:
     build:
       context: .
     ports:
       - 8000:8000
-
+  clientapp:
+    build: ./clientapp
+    ports:
+      - 3000:3000
