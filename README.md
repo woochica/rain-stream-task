@@ -6,6 +6,8 @@ Consists of Python/FastAPI backend that connects to a Mastodon instance (as per 
 
 It also contains a Next.js client that connects to the backend endpoint and fetches the stream using the Streams API.
 
+![Screenshot of the client app](./screenshot.png)
+
 ## Run
 
 Provide your Mastodon login info in the `.env`:
