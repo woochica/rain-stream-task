@@ -1,4 +1,8 @@
-export const Entry = ({createdAt, url, content, avatar, displayName}) => {
+type Props = {
+  createdAt: string, url: string, content: string, avatar: string, displayName: string
+};
+
+export const Entry = ({createdAt, url, content, avatar, displayName}: Props) => {
     const markup = { __html: content };
     return (
       <div className="max-w-sm w-full lg:max-w-full lg:flex">

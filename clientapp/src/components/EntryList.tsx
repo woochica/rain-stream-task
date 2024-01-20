@@ -2,17 +2,29 @@ import React, {useCallback, useState} from 'react';
 import {useStream} from 'react-fetch-streams';
 import {Entry} from './Entry';
 
+const serverUrl = 'http://localhost:8000/public';
 const fetchParams = {mode: 'cors'}
 
-export const EntryList = props => {
-    const [entries, setEntries] = useState([]);
-    const onNext = useCallback(async res => {
+type ResponseEntry = {
+  id: string;
+  account: {
+    avatar: string;
+    display_name: string;
+  };
+  created_at: string;
+  content: string;
+  url: string;
+};
+
+export const EntryList = () => {
+  const [entries, setEntries] = useState<ResponseEntry[]>([]);
+  const onNext = useCallback(async (res: Response) => {
         // TODO add schema validation
-        const newEntry = await res.json();
+        const newEntry = await res.json() as unknown as ResponseEntry;
         setEntries([newEntry, ...entries]);
         console.debug('new entry', newEntry);
     }, [setEntries, entries]);
-    useStream('http://localhost:8000/public', {onNext, fetchParams});
+  useStream(serverUrl, {onNext, fetchParams});
 
     const entriesContent = entries.map(entry => (
             <Entry key={entry.id}
