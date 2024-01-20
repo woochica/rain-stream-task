@@ -25,25 +25,27 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-max_entries = int(os.environ.get('MASTODON_MAX_ENTRIES', 50))
-client_secret = os.environ.get('MASTODON_CLIENT_SECRET', 'mastodon_clientcred.secret')
-user_secret = os.environ.get('MASTODON_USER_SECRET', 'mastodon_usercred.secret')
+max_entries = int(os.environ.get("MASTODON_MAX_ENTRIES", 50))
+client_secret = os.environ.get("MASTODON_CLIENT_SECRET", "mastodon_clientcred.secret")
+user_secret = os.environ.get("MASTODON_USER_SECRET", "mastodon_usercred.secret")
 
 # mastodon stream pool
 entries = []
 
+
 def date_to_isoformat(o):
-  if isinstance(o, datetime.datetime):
-      return o.isoformat()
+    if isinstance(o, datetime.datetime):
+        return o.isoformat()
+
 
 async def generate_entries(forever=True):
     global entries
     pos = 0
     while forever or pos < len(entries):
-        if (pos < len(entries)):
+        if pos < len(entries):
             entry = entries[pos]
-            logging.debug("streaming entry %s", entry['id'])
-            yield json.dumps(entry, default=date_to_isoformat) + '\n'
+            logging.debug("streaming entry %s", entry["id"])
+            yield json.dumps(entry, default=date_to_isoformat) + "\n"
             pos += 1
 
             # DEMO slow down the stream
@@ -55,12 +57,11 @@ async def generate_entries(forever=True):
         else:
             await asyncio.sleep(1)  # wait for more data
 
+
 @app.get("/public")
 async def stream_public():
-    return StreamingResponse(
-        generate_entries(),
-        media_type="application/x-ndjson"
-    )
+    return StreamingResponse(generate_entries(), media_type="application/x-ndjson")
+
 
 class Listener(StreamListener):
     def on_update(self, status):
@@ -79,7 +80,7 @@ class Listener(StreamListener):
         logging.debug("ping")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
     mastodon = Mastodon(client_id=client_secret)
     mastodon.log_in(
