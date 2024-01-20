@@ -38,6 +38,13 @@ venv/bin/pip install -r requirements_dev.txt
 venv/bin/python -m unittest tests.py
 ```
 
+## Run Storybook
+
+``` shell
+cd clientapp/
+npm run storybook
+```
+
 ## Known issues, limitations
 
 - Mastodon posts are stored in-memory whose number is limited by a constant
